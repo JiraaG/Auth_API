@@ -1,0 +1,63 @@
+﻿@using Auth_API.Domain.Entities.Account.ViewModel
+@model RegisterConfirmationViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = Model.ConfirmedEmail ? "Email Confermata" : "Errore nella Conferma";
+}
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .confirmation-box {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="confirmation-box text-center">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            @if (Model.ConfirmedEmail)
+            {
+                <h2 class="mb-4">E-mail confermata!</h2>
+                <p>
+                    Grazie per aver confermato la tua email! Ora puoi accedere al tuo account.
+                </p>
+                <a href="@Url.Action("Login", "Account", new { returnUrl = Model.ReturnUrl })" class="btn btn-primary mt-3">
+                    Clicca qui per eseguire il Login
+                </a>
+            }
+            else
+            {
+                <h2 class="mb-4">Errore nella conferma dell'e-mail!</h2>
+                <p>
+                    Si è verificato un problema durante la conferma della tua e-mail.
+                    Per favore, riprova o contatta il supporto se il problema persiste.
+                </p>
+                <a href="@Url.Action("Login", "Account", new { returnUrl = Model.ReturnUrl })" class="btn btn-primary mt-3">
+                    Clicca qui per eseguire il Login
+                </a>
+            }
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

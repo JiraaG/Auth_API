@@ -1,0 +1,193 @@
+﻿@using Auth_API.Domain.Entities.Account.ViewModel
+@using Auth_API.Domain.Entities.Enum
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model Login2FAViewModel
+@{
+    ViewData["Title"] = "Login 2FA";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/css/Login2FA.css" />
+
+</head>
+<body>
+
+    <div class="container" style="margin-top: 5rem;">
+        <form asp-action="Login2FA" asp-controller="Account" method="post" id="twoFaForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="RememberMe" />
+            <input type="hidden" asp-for="TwoFactorMethod" />
+
+            <h1>TWO-FACTOR AUTHENTICATION</h1>
+            @* Visualizza istruzioni diverse in base al metodo scelto *@
+            @if (Model.TwoFactorMethod == TwoFactorMethodType.Email)
+            {
+                <p>
+                    Ti abbiamo inviato un codice di autenticazione tramite email. Controlla la tua casella di posta e inserisci il codice qui sotto.
+                </p>
+            }
+            else if (Model.TwoFactorMethod == TwoFactorMethodType.Authenticator)
+            {
+                <p>
+                    Apri la tua app authenticator (ad es. Microsoft Authenticator o Google Authenticator) e inserisci il codice visualizzato qui sotto.
+                </p>
+            }
+            else
+            {
+                <p>
+                    Non hai nessun metodo per effettuare l'autenticazione a 2 fattori. Contatta il supporto.
+                </p>
+            }
+
+            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+
+            @if (Model.TwoFactorMethod == TwoFactorMethodType.Email || Model.TwoFactorMethod == TwoFactorMethodType.Authenticator)
+            {
+                <br />
+                <p>Enter 6-digit code from your authenticator application</p>
+                <br />
+
+                <div class="form__group form__pincode">
+                    @for (int i = 0; i < 6; i++)
+                    {
+                        @* <label asp-for="Pincode[@i].Value"></label> *@
+                        <input asp-for="Pincode[@i].Value"
+                               type="tel"
+                               inputmode="numeric"
+                               pattern="\d*"
+                               maxlength="1"
+                               placeholder="·"
+                               autocomplete="off"
+                               class="pincode-input"
+                               style="width:3rem; height:3rem; font-size:1.5rem; text-align:center;" />
+                        <span asp-validation-for="Pincode[@i].Value" class="text-danger"></span>
+                    }
+
+                    @* @for (int i = 0; i < 6; i++)
+                {
+                    <input asp-for="Pincode[@i]"
+                           type="tel"
+                           maxlength="1"
+                           pattern="\d*"
+                           tabindex="@(i+1)"
+                           placeholder="·"
+                           autocomplete="off"
+                           class="pincode-input" />
+                } *@
+
+                    @* <span asp-validation-for="Pincode" class="text-danger"></span> *@
+                </div>
+
+                <div class="form__buttons">
+                    <button type="submit" class="button button--primary">Continue</button>
+                </div>
+            }
+        </form>
+    </div>
+
+    @* <div class="container" style="margin-top: 5rem">
+        <h2>Autenticazione a Due Fattori</h2>
+
+        @if (Model.TwoFactorMethod == TwoFactorMethodType.Email)
+        {
+            <p>
+                Ti abbiamo inviato un codice di autenticazione tramite email. Controlla la tua casella di posta e inserisci il codice qui sotto.
+            </p>
+        }
+        else if (Model.TwoFactorMethod == TwoFactorMethodType.Authenticator)
+        {
+            <p>
+                Apri la tua app authenticator (ad es. Microsoft Authenticator o Google Authenticator) e inserisci il codice visualizzato qui sotto.
+            </p>
+        }
+        else
+        {
+            <p>
+                Inserisci il codice di autenticazione per completare il login.
+            </p>
+        }
+
+        <form asp-action="Login2FA" asp-controller="Account" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+            <input type="hidden" asp-for="RememberMe" />
+            <input type="hidden" asp-for="TwoFactorMethod" />
+
+            <div class="form-group">
+                <label asp-for="TwoFactorCode"></label>
+                <input asp-for="TwoFactorCode" class="form-control" placeholder="Inserisci il codice" />
+                <span asp-validation-for="TwoFactorCode" class="text-danger"></span>
+            </div>
+
+            @if (Model.TwoFactorMethod == TwoFactorMethodType.Authenticator)
+            {
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="RememberMachine" />
+                            Ricorda questo dispositivo
+                        </label>
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Verifica</button>
+            </div>
+        </form>
+    </div> *@
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const inputs = Array.from(document.querySelectorAll('.pincode-input'));
+          const form = document.getElementById('twoFaForm');
+
+          function sanitizeAndMove(e, idx) {
+            // rimuovi tutto tranne cifre
+            e.target.value = e.target.value.replace(/\D/g, '');
+            if (e.target.value && idx < inputs.length - 1) {
+              inputs[idx + 1].focus();
+            }
+            // submit automatico quando tutti pieni
+            if (inputs.every(i => i.value.length === 1)) {
+              form.submit();
+            }
+          }
+
+          inputs.forEach((input, idx) => {
+            input.addEventListener('input', e => sanitizeAndMove(e, idx));
+
+            input.addEventListener('keydown', e => {
+              if (e.key === 'Backspace' && input.value === '' && idx > 0) {
+                inputs[idx - 1].focus();
+              }
+            });
+
+            input.addEventListener('paste', e => {
+              e.preventDefault();
+              const pasted = (e.clipboardData || window.clipboardData).getData('text');
+              const digits = pasted.replace(/\D/g, '').slice(0, inputs.length).split('');
+              digits.forEach((d, i) => inputs[i].value = d);
+              const next = inputs.find(i => i.value === '');
+              (next || inputs[inputs.length - 1]).focus();
+              if (inputs.every(i => i.value)) form.submit();
+            });
+          });
+        });
+    </script>
+</body>
+</html>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+}
+

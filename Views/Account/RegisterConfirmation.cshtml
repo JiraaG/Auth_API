@@ -1,0 +1,72 @@
+﻿@using Auth_API.Domain.Entities.Account.ViewModel
+
+@model RegisterConfirmationViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Conferma registrazione";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    @* <link rel="stylesheet" href="~/css/style.css" /> *@
+    <!-- Puoi includere altri file CSS o font se necessario -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .confirmation-box {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="confirmation-box text-center">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            @if (Model.ConfirmedEmail)
+            {
+                <h2 class="mb-4">Registrazione avvenuta con successo!</h2>
+                <p class="mb-4">
+                    Grazie per esserti registrato! Abbiamo inviato un’email al tuo indirizzo per confermare la tua registrazione.
+                    Per favore, controlla la tua casella di posta e clicca sul link per confermare il tuo indirizzo email.
+                </p>
+                <p>
+                    Se hai confermato la tua email
+                    <a href="@Url.Action("Login", "Account", new { returnUrl = Model.ReturnUrl })">clicca qui</a>
+                    per eseguire il Login.
+                </p>
+            }
+            else
+            {
+                <h2 class="mb-4">Problema durante la registrazione!</h2>
+                <p class="mb-4">
+                    Errore durante la registrazione! Non abbiamo potuto inviare un’email al tuo indirizzo per confermare la tua registrazione.
+                    Per favore, ripeti la registrazione. Se il problema persiste, contattare il supporto.
+                </p>
+                <p>
+                    Per riprovare la registrazione
+                    <a href="@Url.Action("Register", "Account", new { returnUrl = Model.ReturnUrl })">clicca qui</a>.
+                </p>
+            }
+
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
