@@ -1,4 +1,5 @@
 ﻿using Auth_API.Domain.Entities.Enum;
+using Auth_API.Domain.Entities.Warehouses;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,5 +24,8 @@ namespace Auth_API.Domain.Entities.Account
         [Required]
         public Guid PseudonymizedUserId { get; set; }
 
+        // Collezione di magazzini
+        public ICollection<Warehouses.Warehouses> Warehouses { get; set; }
+            = new List<Warehouses.Warehouses>();
     }
 }

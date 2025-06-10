@@ -1,3 +1,4 @@
+using Auth_API.Application.Interfaces;
 using Auth_API.Application.Services;
 using Auth_API.Domain.Entities.Account;
 using Auth_API.Infrastructure.Persistance;
@@ -208,6 +209,8 @@ builder.Services.AddSwaggerGen(c =>
     perché ogni operazione è indipendente e non è necessario condividere dati tra diverse richieste.
  */
 builder.Services.AddTransient<EmailCustomSender>();
+
+builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
