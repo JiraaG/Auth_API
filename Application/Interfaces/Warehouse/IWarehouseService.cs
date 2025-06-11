@@ -1,6 +1,6 @@
 ﻿using Auth_API.Domain.Entities.Warehouses;
 
-namespace Auth_API.Application.Interfaces
+namespace Auth_API.Application.Interfaces.Warehouse
 {
     public interface IWarehouseService
     {

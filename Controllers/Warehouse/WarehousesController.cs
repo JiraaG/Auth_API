@@ -1,10 +1,10 @@
-﻿using Auth_API.Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Auth_API.Domain.Entities.Warehouses;
 using Auth_API.Infrastructure;
 using Microsoft.AspNetCore.Http.HttpResults;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Auth_API.Application.Interfaces.Warehouse;
 
 namespace Auth_API.Controllers.Warehouse
 {

@@ -1,9 +1,9 @@
-﻿using Auth_API.Application.Interfaces;
+﻿using Auth_API.Application.Interfaces.Warehouse;
 using Auth_API.Domain.Entities.Warehouses;
 using Auth_API.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth_API.Application.Services
+namespace Auth_API.Application.Services.Warehouse
 {
     public class WarehouseService : IWarehouseService
     {

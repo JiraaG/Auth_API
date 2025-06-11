@@ -1,5 +1,6 @@
-using Auth_API.Application.Interfaces;
+using Auth_API.Application.Interfaces.Warehouse;
 using Auth_API.Application.Services;
+using Auth_API.Application.Services.Warehouse;
 using Auth_API.Domain.Entities.Account;
 using Auth_API.Infrastructure.Persistance;
 using Duende.IdentityServer;

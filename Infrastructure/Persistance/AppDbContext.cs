@@ -1,5 +1,6 @@
 ﻿using Auth_API.Domain.Entities.Account;
 using Auth_API.Domain.Entities.Warehouses;
+using Auth_API.Domain.Entities.Warehouses.Products;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ namespace Auth_API.Infrastructure.Persistance
 
         public DbSet<User> Users { get; set; }
         public DbSet<Warehouses> Warehouses { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +57,79 @@ namespace Auth_API.Infrastructure.Persistance
                       .WithMany(u => u.Warehouses)
                       .HasForeignKey(w => w.UserId)
                       .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Configurazione di Product
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasKey(p => p.Id);
+
+                entity.Property(p => p.Code)
+                        .HasMaxLength(50);
+
+                entity.Property(p => p.Name)
+                        .IsRequired()
+                        .HasMaxLength(200);
+                entity.Property(p => p.Description)
+                        .IsRequired();
+
+                entity.Property(p => p.PurchasePrice)
+                        .IsRequired()
+                        .HasColumnType("decimal(18,2)");
+                entity.Property(p => p.SalePrice)
+                        .IsRequired()
+                        .HasColumnType("decimal(18,2)");
+
+                entity.Property(p => p.Currency)
+                      .IsRequired()
+                      .HasMaxLength(3);
+
+                entity.Property(p => p.PurchaseDate)
+                      .IsRequired();
+                entity.Property(p => p.SaleDate)
+                      .IsRequired();
+
+                entity.Property(p => p.IsActive)
+                      .IsRequired();
+                entity.Property(p => p.IsSold)
+                      .IsRequired();
+
+                entity.Property(p => p.CreatedAt)
+                      .IsRequired();
+                entity.Property(p => p.ModifiedAt)
+                      .IsRequired();
+
+                entity.HasOne(p => p.Category)
+                      .WithMany(c => c.Products)
+                      .HasForeignKey(p => p.CategoryId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(p => p.Warehouse)
+                      .WithMany(w => w.Products)
+                      .HasForeignKey(p => p.WarehouseId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Configurazione di Category
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+
+                entity.Property(c => c.Name)
+                        .IsRequired()
+                        .HasMaxLength(100);
+                entity.Property(c => c.Description)
+                        .IsRequired();
+
+                entity.Property(c => c.CreatedAt)
+                      .IsRequired();
+                entity.Property(c => c.ModifiedAt)
+                      .IsRequired();
+
+                entity.HasOne(c => c.ParentCategory)
+                      .WithMany(c => c.SubCategories)
+                      .HasForeignKey(c => c.ParentCategoryId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
         }
