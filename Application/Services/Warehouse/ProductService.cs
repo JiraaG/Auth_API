@@ -20,6 +20,8 @@ namespace Auth_API.Application.Services.Warehouse
             return await _context.Products
                                     .Where(w => w.WarehouseId == idWarehouse) // filtra per UserId
                                     .Include(w => w.Warehouse) // carica anche l'utente associato
+                                    .Include(w => w.Category) // carica anche la categoria associata
+                                    .Include(w => w.Orders) // carica anche gli ordini associati
                                     .ToListAsync();
         }
 
@@ -28,6 +30,8 @@ namespace Auth_API.Application.Services.Warehouse
             return await _context.Products
                                     .Where(w => w.Id == id && w.WarehouseId == idWarehouse) // filtra per Id e UserId
                                     .Include(w => w.Warehouse)
+                                    .Include(w => w.Category) // carica anche la categoria associata
+                                    .Include(w => w.Orders) // carica anche gli ordini associati
                                     .FirstOrDefaultAsync(w => w.Id == id);
         }
 

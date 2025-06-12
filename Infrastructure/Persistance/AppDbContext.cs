@@ -16,6 +16,7 @@ namespace Auth_API.Infrastructure.Persistance
         public DbSet<Warehouses> Warehouses { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -132,6 +133,22 @@ namespace Auth_API.Infrastructure.Persistance
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.HasOne(o => o.Product)
+                      .WithMany(p => p.Orders)
+                      .HasForeignKey(o => o.ProductId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(o => o.Quantity)
+                      .HasColumnType("decimal(18,4)");
+
+                entity.Property(o => o.UnitPrice)
+                      .HasColumnType("decimal(18,2)");
+
+                entity.Property(o => o.TotalPrice)
+                      .HasColumnType("decimal(18,2)");
+            });
         }
     }
 }

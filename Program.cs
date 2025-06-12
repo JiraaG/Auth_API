@@ -212,6 +212,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddTransient<EmailCustomSender>();
 
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
