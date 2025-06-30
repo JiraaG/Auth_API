@@ -21,7 +21,6 @@ namespace Auth_API.Domain.Entities.Warehouses.Products
 
         // Date di ordine e di evasione (opzionale)
         public DateTime OrderDate { get; set; }
-        public DateTime? FulfillmentDate { get; set; }
 
         // Auditing
         public DateTime CreatedAt { get; set; }

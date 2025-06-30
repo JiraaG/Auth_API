@@ -8,6 +8,5 @@
         public decimal UnitPrice { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime OrderDate { get; set; }
-        public DateTime? FulfillmentDate { get; set; }
     }
 }

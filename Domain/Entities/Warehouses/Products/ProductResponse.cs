@@ -11,21 +11,19 @@ namespace Auth_API.Domain.Entities.Warehouses.Products
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
+        public string QuantityUnit { get; set; } = string.Empty;
+        public decimal Quantity { get; set; }
+        public decimal TotalQuantity { get; set; }
+
         // Prezzo e data di acquisto (sempre obbligatori)
         public decimal PurchasePrice { get; set; }
         public DateTime PurchaseDate { get; set; }
-
-        // Attributo che definisce se il prodotto è vendibile
-        // true => vendibile (attivo)
-        // false => non vendibile (disabilitato in UI)
-        public bool IsActive { get; set; } = true;
 
         // Flag di vendita: true se effettivamente venduto
         public bool IsSold { get; set; } = false;
 
         // Prezzo e data di vendita (valori significativi solo se IsSold == true)
-        public decimal SalePrice { get; set; } = 0m;
-        public DateTime SaleDate { get; set; } = DateTime.MinValue;
+        public decimal SaleOrdersPrice { get; set; }
 
         // Valuta ISO (EUR, USD, ecc.)
         public string Currency { get; set; } = "EUR";

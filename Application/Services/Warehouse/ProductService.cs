@@ -43,14 +43,16 @@ namespace Auth_API.Application.Services.Warehouse
             product.Name = productCreate.Name;
             product.Description = productCreate.Description;
 
+            product.Quantity = productCreate.Quantity;
+            product.TotalQuantity = productCreate.TotalQuantity;
+            product.QuantityUnit = productCreate.QuantityUnit;
+
             product.PurchasePrice = productCreate.PurchasePrice;
             product.PurchaseDate = productCreate.PurchaseDate;
 
-            product.IsActive = productCreate.IsActive;
             product.IsSold = productCreate.IsSold;
 
-            product.SalePrice = productCreate.SalePrice;
-            product.SaleDate = productCreate.SaleDate;
+            product.SaleOrdersPrice = productCreate.SaleOrdersPrice;
 
             product.Currency = productCreate.Currency;
 
@@ -75,14 +77,16 @@ namespace Auth_API.Application.Services.Warehouse
             existing.Name = producteUpdate.Name;
             existing.Description = producteUpdate.Description;
 
+            existing.Quantity = producteUpdate.Quantity;
+            existing.TotalQuantity = producteUpdate.TotalQuantity;
+            existing.QuantityUnit = producteUpdate.QuantityUnit;
+
             existing.PurchasePrice = producteUpdate.PurchasePrice;
             existing.PurchaseDate = producteUpdate.PurchaseDate;
 
-            existing.IsActive = producteUpdate.IsActive;
             existing.IsSold = producteUpdate.IsSold;
 
-            existing.SalePrice = producteUpdate.SalePrice;
-            existing.SaleDate = producteUpdate.SaleDate;
+            existing.SaleOrdersPrice = producteUpdate.SaleOrdersPrice;
 
             existing.Currency = producteUpdate.Currency;
 

@@ -3,6 +3,7 @@ using System;
 using Auth_API.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Auth_API.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250625192219_InitialAppMigration")]
+    partial class InitialAppMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,6 +165,9 @@ namespace Auth_API.Migrations.AppDb
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime?>("FulfillmentDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -219,6 +225,9 @@ namespace Auth_API.Migrations.AppDb
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsSold")
                         .HasColumnType("boolean");
 
@@ -244,11 +253,11 @@ namespace Auth_API.Migrations.AppDb
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<decimal>("SaleOrdersPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("SaleDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal>("TotalQuantity")
-                        .HasColumnType("numeric");
+                    b.Property<decimal>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("WarehouseId")
                         .HasColumnType("integer");

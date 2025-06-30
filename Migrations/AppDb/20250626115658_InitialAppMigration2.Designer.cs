@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Auth_API.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250612205303_AddProductOrderEntity")]
-    partial class AddProductOrderEntity
+    [Migration("20250626115658_InitialAppMigration2")]
+    partial class InitialAppMigration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,11 +245,19 @@ namespace Auth_API.Migrations.AppDb
                     b.Property<decimal>("PurchasePrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("QuantityUnit")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
                     b.Property<DateTime>("SaleDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("SalePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric");
 
                     b.Property<int>("WarehouseId")
                         .HasColumnType("integer");

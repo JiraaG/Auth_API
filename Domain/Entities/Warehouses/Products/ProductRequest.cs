@@ -12,17 +12,18 @@ namespace Auth_API.Domain.Entities.Warehouses.Products
         [Required]
         public string Description { get; set; } = string.Empty;
 
+        [Required]
+        public decimal Quantity { get; set; }
+        [Required]
+        [MaxLength(10)] public string QuantityUnit { get; set; } = string.Empty;
+        [Required]
+        public decimal TotalQuantity { get; set; }
+
         // Prezzo e data di acquisto (sempre obbligatori)
         [Required]
         public decimal PurchasePrice { get; set; }
         [Required]
         public DateTime PurchaseDate { get; set; }
-
-        // Attributo che definisce se il prodotto è vendibile
-        // true => vendibile (attivo)
-        // false => non vendibile (disabilitato in UI)
-        [Required]
-        public bool IsActive { get; set; } = true;
 
         // Flag di vendita: true se effettivamente venduto
         [Required]
@@ -30,8 +31,7 @@ namespace Auth_API.Domain.Entities.Warehouses.Products
 
         // Prezzo e data di vendita (valori significativi solo se IsSold == true)
         [Required]
-        public decimal SalePrice { get; set; } = 0m;
-        public DateTime SaleDate { get; set; } = DateTime.MinValue;
+        public decimal SaleOrdersPrice { get; set; }
 
         // Valuta ISO (EUR, USD, ecc.)
         [Required]

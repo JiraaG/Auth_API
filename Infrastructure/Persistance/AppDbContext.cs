@@ -74,12 +74,19 @@ namespace Auth_API.Infrastructure.Persistance
                 entity.Property(p => p.Description)
                         .IsRequired();
 
+                entity.Property(p => p.Quantity)
+                        .IsRequired()
+                        .HasColumnType("decimal(18,4)");
+                entity.Property(p => p.QuantityUnit)
+                        .IsRequired()
+                        .HasMaxLength(10);
+
                 entity.Property(p => p.PurchasePrice)
                         .IsRequired()
                         .HasColumnType("decimal(18,2)");
-                entity.Property(p => p.SalePrice)
-                        .IsRequired()
-                        .HasColumnType("decimal(18,2)");
+                //entity.Property(p => p.SalePrice)
+                //        .IsRequired()
+                //        .HasColumnType("decimal(18,2)");
 
                 entity.Property(p => p.Currency)
                       .IsRequired()
@@ -87,13 +94,15 @@ namespace Auth_API.Infrastructure.Persistance
 
                 entity.Property(p => p.PurchaseDate)
                       .IsRequired();
-                entity.Property(p => p.SaleDate)
-                      .IsRequired();
+                //entity.Property(p => p.SaleDate)
+                //      .IsRequired();
 
-                entity.Property(p => p.IsActive)
-                      .IsRequired();
                 entity.Property(p => p.IsSold)
                       .IsRequired();
+
+                entity.Property(p => p.SaleOrdersPrice)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
 
                 entity.Property(p => p.CreatedAt)
                       .IsRequired();
